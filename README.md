@@ -1,3 +1,4 @@
-django
-djoser
-djangorestframework
+install
+-django
+-djoser
+-djangorestframework
