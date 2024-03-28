@@ -23,9 +23,15 @@ class Post(models.Model):
     posted_date = models.DateField(auto_now_add = True)
     image = models.ImageField()
 
+    def __str__(self) -> str:
+        return self.title
+
 class Review(models.Model):
     user = models.ForeignKey(User, on_delete = models.PROTECT)
     post = models.ForeignKey(Post, on_delete = models.CASCADE)
     review = models.TextField()
     review_date = models.DateField(auto_now_add = True)
+
+    def __str__(self) -> str:
+        return self.review
 

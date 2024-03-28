@@ -8,7 +8,10 @@ class User(AbstractUser):
         ("N" ,"Neutral"),
     ]
     email = models.EmailField(unique = True)
-    phone = models.IntegerField()
+    phone = models.IntegerField(null = True, blank = True)
     sex = models.CharField(max_length = 1, choices = SEXCHOICE, default = "N" )
+
+    def __str__(self) -> str:
+        return f'{self.first_name} {self.last_name}'
 
 
