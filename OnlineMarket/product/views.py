@@ -1,11 +1,18 @@
 from django.shortcuts import render
 from .serializers import CreatePostSerializer, GetPostSerializer, ReviewSerializer, CreateReviewSerializer
+from django_filters.rest_framework import DjangoFilterBackend
 from .models import Post, Review
+from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.permissions import IsAuthenticated , AllowAny
 from rest_framework.viewsets import ModelViewSet
+from .filters import PostFilter
 
 
 class PostViewSet(ModelViewSet):
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_class = PostFilter
+    search_fields = ["title", "description"]
+    ordering_fields = ["posted_time"]
 
     def get_queryset(self):
         if self.request.method == "PUT":

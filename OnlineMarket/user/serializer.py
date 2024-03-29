@@ -11,10 +11,10 @@ class UserCreationSerializer(UserCreateSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["first_name", "last_name", "email", "username", "sex", "phone", "password"]
+        fields = ["id","first_name", "last_name", "email", "username", "sex", "phone"]
 
 class CurrentUser(DjoserUserSerializer):
     class Meta(DjoserUserSerializer.Meta):
         model = User
-        fields = ["first_name", "last_name", "email", "username", "sex", "phone"]
+        fields = ["first_name", "last_name", "email", "username", "sex", "phone", "password"]
         

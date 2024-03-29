@@ -40,8 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'djoser',
-    'product',
     'user',
+    'django_filters',
+    'product',
 ]
 AUTH_USER_MODEL = 'user.User'
 MIDDLEWARE = [
@@ -134,6 +135,7 @@ DJOSER = {
 }
 
 REST_FRAMEWORK = {
+    'COERCE_DECIMAL_TO_STRING': False,
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),

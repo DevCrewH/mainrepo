@@ -21,6 +21,7 @@ class Post(models.Model):
     price = models.DecimalField(max_digits = 8, decimal_places = 2, validators = [MinValueValidator(1)])
     type = models.CharField(max_length = 2, choices = TYPECHOICE, default = "OT")
     posted_date = models.DateField(auto_now_add = True)
+    posted_time = models.DateTimeField(auto_now_add = True)
     image = models.ImageField(null=True, blank=True)
 
     def __str__(self) -> str:
