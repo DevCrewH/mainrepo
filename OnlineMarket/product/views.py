@@ -1,12 +1,11 @@
 from django.shortcuts import render
-from .serializers import PostSerializer, ReviewSerializer, CreateReviewSerializer
+from .serializers import CreatePostSerializer, GetPostSerializer, ReviewSerializer, CreateReviewSerializer
 from .models import Post, Review
 from rest_framework.permissions import IsAuthenticated , AllowAny
 from rest_framework.viewsets import ModelViewSet
 
 
 class PostViewSet(ModelViewSet):
-    serializer_class = PostSerializer
 
     def get_queryset(self):
         if self.request.method == "PUT":
@@ -17,7 +16,12 @@ class PostViewSet(ModelViewSet):
             return Post.objects.filter(user_id = self.request.user.id)
         else:
             return Post.objects.all()
-
+        
+    def get_serializer_class(self):
+        if self.request.method == "GET":
+            return GetPostSerializer
+        return CreatePostSerializer
+        
     def get_permissions(self):
         if self.request.method == "GET":
             return [AllowAny()]
@@ -45,9 +49,9 @@ class ReviewViewSet(ModelViewSet):
         return [IsAuthenticated()]
 
     def get_serializer_class(self):
-        if self.request.method == "POST":
-            return CreateReviewSerializer
-        return ReviewSerializer
+        if self.request.method == "GET":
+            return ReviewSerializer
+        return CreateReviewSerializer
 
     def get_serializer_context(self):
         return {
