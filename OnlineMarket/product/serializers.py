@@ -6,6 +6,9 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ["id", "title", "description", "price", "type", "posted_date", "image"]
+    
+    def create(self, validated_data):
+        return Post.objects.create(user_id = self.context["user_id"], **validated_data)
 
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
