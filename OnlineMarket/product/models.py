@@ -22,7 +22,7 @@ class Post(models.Model):
     type = models.CharField(max_length = 2, choices = TYPECHOICE, default = "OT")
     posted_date = models.DateField(auto_now_add = True)
     posted_time = models.DateTimeField(auto_now_add = True)
-    image = models.ImageField(null=True, blank=True)
+    image = models.ImageField(upload_to='product/images',null=True, blank=True)
 
     def __str__(self) -> str:
         return self.title
@@ -52,7 +52,6 @@ class Rating(models.Model):
     user = models.ForeignKey(User, on_delete = models.PROTECT)
     post = models.ForeignKey(Post, on_delete = models.CASCADE)
     rate = models.PositiveIntegerField(choices = RATE_CHOICES , default = 0)
-    #rating = models.DecimalField(max_digits = 2, decimal_places = 1, null = True, blank = True, default = 0)
     rated_at = models.DateTimeField(auto_now_add = True)
 
     class Meta:
