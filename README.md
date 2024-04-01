@@ -4,3 +4,4 @@ install
 -djangorestframework
 -pillow
 -drf-nested-routers
+-django-filter
