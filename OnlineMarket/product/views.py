@@ -14,7 +14,7 @@ class PostViewSet(ModelViewSet):
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_class = PostFilter
     search_fields = ["title", "description"]
-    ordering_fields = ["posted_time"]
+    ordering_fields = ["posted_time", "rating"]
 
     def get_queryset(self):
         if self.request.method == "PUT":
