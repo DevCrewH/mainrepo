@@ -36,3 +36,27 @@ class Review(models.Model):
     def __str__(self) -> str:
         return self.review
 
+class Rating(models.Model):
+    RATE_CHOICES = [
+        (1, "1"),
+        (2, "2"),
+        (3, "3"),
+        (4, "4"),
+        (5, "5"),
+        (6, "6"),
+        (7, "7"),
+        (8, "8"),
+        (9, "9"),
+        (10, "10"),
+    ]
+    user = models.ForeignKey(User, on_delete = models.PROTECT)
+    post = models.ForeignKey(Post, on_delete = models.CASCADE)
+    rate = models.PositiveIntegerField(choices = RATE_CHOICES , default = 0)
+    #rating = models.DecimalField(max_digits = 2, decimal_places = 1, null = True, blank = True, default = 0)
+    rated_at = models.DateTimeField(auto_now_add = True)
+
+    class Meta:
+        unique_together = ["post", "user"]
+    
+    def __str__(self) -> str:
+        return self.rating
