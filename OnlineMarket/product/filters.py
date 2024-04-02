@@ -7,4 +7,5 @@ class PostFilter(FilterSet):
         fields = {
             "type": ["exact"],
             "price": ["gt", "lt", "exact"],
+            "user_id": ["exact"]
         }
