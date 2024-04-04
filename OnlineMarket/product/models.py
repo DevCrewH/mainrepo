@@ -2,7 +2,7 @@ from django.db import models
 from django.core.validators import MinValueValidator
 from user.models import User
 
-class Post(models.Model):
+class Product(models.Model):
     TYPECHOICE = [
         ("FD","Food"),
         ("PC","Personal Computer"),
@@ -29,7 +29,7 @@ class Post(models.Model):
 
 class Review(models.Model):
     user = models.ForeignKey(User, on_delete = models.PROTECT)
-    post = models.ForeignKey(Post, on_delete = models.CASCADE)
+    product = models.ForeignKey(Product, on_delete = models.CASCADE)
     review = models.TextField()
     review_date = models.DateField(auto_now_add = True)
 
@@ -50,12 +50,12 @@ class Rating(models.Model):
         (10, "10"),
     ]
     user = models.ForeignKey(User, on_delete = models.PROTECT)
-    post = models.ForeignKey(Post, on_delete = models.CASCADE)
+    product = models.ForeignKey(Product, on_delete = models.CASCADE)
     rate = models.PositiveIntegerField(choices = RATE_CHOICES , default = 0)
     rated_at = models.DateTimeField(auto_now_add = True)
 
     class Meta:
-        unique_together = ["post", "user"]
+        unique_together = ["product", "user"]
     
     def __str__(self) -> str:
         return self.rating

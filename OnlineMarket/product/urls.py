@@ -3,11 +3,11 @@ from rest_framework_nested import routers
 from . import views
 
 router = routers.DefaultRouter()
-router.register("post", views.PostViewSet, basename="post")
+router.register("product", views.ProductViewSet, basename="product")
 
-post_routers = routers.NestedDefaultRouter(router, "post", lookup = "post")
-post_routers.register("review", views.ReviewViewSet, basename="post-review")
-post_routers.register("rating", views.RatingViewSet, basename="post-rating")
+post_routers = routers.NestedDefaultRouter(router, "product", lookup = "product")
+post_routers.register("review", views.ReviewViewSet, basename="product-review")
+post_routers.register("rating", views.RatingViewSet, basename="product-rating")
 urlpatterns = [
     path("", include(router.urls)),
     path("", include(post_routers.urls)),

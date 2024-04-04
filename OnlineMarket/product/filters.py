@@ -1,9 +1,9 @@
 from django_filters.rest_framework import FilterSet
-from .models import Post
+from .models import Product
 
-class PostFilter(FilterSet):
+class ProductFilter(FilterSet):
     class Meta:
-        model = Post
+        model = Product
         fields = {
             "type": ["exact"],
             "price": ["gt", "lt", "exact"],
