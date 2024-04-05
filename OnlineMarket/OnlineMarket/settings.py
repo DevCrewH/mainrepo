@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'user',
     'django_filters',
     'product',
+    'event',
 ]
 AUTH_USER_MODEL = 'user.User'
 MIDDLEWARE = [
