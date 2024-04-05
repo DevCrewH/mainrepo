@@ -10,7 +10,7 @@ class GetUserSerializer(serializers.ModelSerializer):
 class CreateEventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
-        fields = ["id", "title", "organizer", "description", "event_date","event_time", "event_place", "posted_date"]
+        fields = ["id", "title", "organizer", "description", "event_date","event_time", "event_place", "image","posted_date"]
 
     def create(self, validated_data):
         user = User.objects.get(id = self.context["user_id"])
@@ -20,7 +20,7 @@ class CreateEventSerializer(serializers.ModelSerializer):
 class GetEventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
-        fields = ["id","user","organizer","title","description", "event_date","event_time", "event_place"]
+        fields = ["id","user","organizer","title","description", "event_date","event_time", "event_place", "image"]
     
     user = GetUserSerializer()
 

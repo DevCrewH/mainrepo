@@ -7,7 +7,7 @@ from .models import EventReview, Event
 
 class EventViewSet(ModelViewSet):
     filter_backends = [SearchFilter,OrderingFilter]
-    search_fields = ["organizer", "description"]
+    search_fields = ["organizer","title", "description"]
     ordering_fields = ["event_date","event_time"]
     def get_queryset(self):
         if self.request.method == "PUT":

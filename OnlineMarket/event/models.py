@@ -12,7 +12,8 @@ class Event(models.Model):
     event_time = models.TimeField()
     event_place = models.CharField(max_length = 255)
     posted_date = models.DateField(auto_now_add = True)
-    posted_time = models.DateTimeField(auto_now_add = True) 
+    posted_time = models.DateTimeField(auto_now_add = True)
+    image = models.ImageField(upload_to='event/images',null=True, blank=True)
 
     def __str__(self) -> str:
         return self.title
