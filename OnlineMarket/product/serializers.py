@@ -3,6 +3,10 @@ from django.db.models.aggregates import Avg
 from .models import Product, Review, Rating
 from user.models import User
 
+class GetUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["first_name", "last_name"]
 
 class GetRatingSerializer(serializers.ModelSerializer):
     class Meta:
@@ -24,6 +28,7 @@ class GetPostSerializer(serializers.ModelSerializer):
         fields = ["id","user","title", "description", "price", "type", "posted_date","image","rating"]
     
     rating = serializers.SerializerMethodField(method_name= "rating_calculate")
+    user = GetUserSerializer()
     
     def rating_calculate(self,product:Product):
         average = Rating.objects.filter(product_id = product.id).aggregate(average=Avg("rate"))
@@ -33,6 +38,8 @@ class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = ["id","user","review", "review_date"]
+    
+    user = GetUserSerializer()
 
 class CreateReviewSerializer(serializers.ModelSerializer):
     class Meta:

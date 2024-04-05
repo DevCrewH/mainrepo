@@ -15,7 +15,7 @@ class Product(models.Model):
         ("OT","Other"),
 
     ]
-    user = models.ForeignKey(User, on_delete = models.CASCADE)
+    user = models.ForeignKey(User, on_delete = models.CASCADE, related_name = "product")
     title = models.CharField(max_length = 255)
     description = models.TextField(null = True,blank =True)
     price = models.DecimalField(max_digits = 8, decimal_places = 2, validators = [MinValueValidator(1)])
