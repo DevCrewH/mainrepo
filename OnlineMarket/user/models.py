@@ -7,6 +7,8 @@ class User(AbstractUser):
         ("F" ,"Female"),
         ("N" ,"Neutral"),
     ]
+    profile = models.ImageField(upload_to='user/images',null=True, blank=True)
+    bio = models.CharField(max_length = 255, null = True, blank = True)
     email = models.EmailField(unique = True)
     phone = models.IntegerField(null = True, blank = True)
     sex = models.CharField(max_length = 1, choices = SEXCHOICE, default = "N" )

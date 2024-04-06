@@ -1,35 +1,36 @@
 from django.shortcuts import render
-from .serializers import CreateProductSerializer, GetProductSerializer, ReviewSerializer, CreateReviewSerializer, CreateRatingSerializer, GetRatingSerializer
+from .serializer import CreateServiceSerializer,GetServiceSerializer, ReviewSerializer, CreateReviewSerializer, CreateRatingSerializer, GetRatingSerializer
 from django_filters.rest_framework import DjangoFilterBackend
-from .models import Product, ProductReview, ProductRating
+from .models import Service,ServiceRating,ServiceReview
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.permissions import IsAuthenticated , AllowAny
 from rest_framework.viewsets import ModelViewSet
-from .filters import ProductFilter
+from .filters import ServiceFilter
 from django.db import IntegrityError
 from rest_framework.response import Response
 from django.http import JsonResponse
 
-class ProductViewSet(ModelViewSet):
+
+class ServiceViewSet(ModelViewSet):
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    filterset_class = ProductFilter
+    filterset_class = ServiceFilter
     search_fields = ["title", "description"]
     ordering_fields = ["posted_time", "rating"]
 
     def get_queryset(self):
         if self.request.method == "PUT":
-            return Product.objects.filter(user_id = self.request.user.id)
+            return Service.objects.filter(user_id = self.request.user.id)
         elif self.request.method == "PATCH":
-            return Product.objects.filter(user_id = self.request.user.id)
+            return Service.objects.filter(user_id = self.request.user.id)
         elif self.request.method == "DELETE":
-            return Product.objects.filter(user_id = self.request.user.id)
+            return Service.objects.filter(user_id = self.request.user.id)
         else:
-            return Product.objects.all()
+            return Service.objects.all()
         
     def get_serializer_class(self):
         if self.request.method == "GET":
-            return GetProductSerializer
-        return CreateProductSerializer
+            return GetServiceSerializer
+        return CreateServiceSerializer
         
     def get_permissions(self):
         if self.request.method == "GET":
@@ -44,13 +45,13 @@ class ReviewViewSet(ModelViewSet):
 
     def get_queryset(self):
         if self.request.method == "PUT":
-            return ProductReview.objects.filter(user_id = self.request.user.id)
+            return ServiceReview.objects.filter(user_id = self.request.user.id)
         elif self.request.method == "PATCH":
-            return ProductReview.objects.filter(user_id = self.request.user.id)
+            return ServiceReview.objects.filter(user_id = self.request.user.id)
         elif self.request.method == "DELETE":
-            return ProductReview.objects.filter(user_id = self.request.user.id)
+            return ServiceReview.objects.filter(user_id = self.request.user.id)
         else:
-            return ProductReview.objects.filter(product_id = self.kwargs["product_pk"])
+            return ServiceReview.objects.filter(service_id = self.kwargs["service_pk"])
         
     def get_permissions(self):
         if self.request.method == "GET":
@@ -64,7 +65,7 @@ class ReviewViewSet(ModelViewSet):
 
     def get_serializer_context(self):
         return {
-            "product_id" : self.kwargs["product_pk"],
+            "service_id" : self.kwargs["service_pk"],
             "user_id" : self.request.user.id
             }
 
@@ -76,25 +77,23 @@ class RatingViewSet(ModelViewSet):
             return CreateRatingSerializer
         def get_queryset(self):
             if self.request.method == "PUT":
-                return ProductRating.objects.filter(user_id = self.request.user.id)
+                return ServiceRating.objects.filter(user_id = self.request.user.id)
             elif self.request.method == "PATCH":
-                return ProductRating.objects.filter(user_id = self.request.user.id)
+                return ServiceRating.objects.filter(user_id = self.request.user.id)
             elif self.request.method == "DELETE":
-                return ProductRating.objects.filter(user_id = self.request.user.id)
+                return ServiceRating.objects.filter(user_id = self.request.user.id)
             else:
-                return ProductRating.objects.filter(product_id = self.kwargs["product_pk"])
+                return ServiceRating.objects.filter(service_id = self.kwargs["service_pk"])
         def get_permissions(self):
             if self.request.method == "GET":
                 return [AllowAny()]
             return [IsAuthenticated()]
         def get_serializer_context(self):
             return {
-                "product_id" : self.kwargs["product_pk"],
+                "service_id" : self.kwargs["service_pk"],
                 "user_id" : self.request.user.id
                 }
     except IntegrityError:
         def error(request):
             return Response({'error': "You can't rate twice"}, status=400)
     
-
-
