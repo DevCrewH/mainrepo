@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'product',
     'event',
     'service',
+    'saved',
 ]
 AUTH_USER_MODEL = 'user.User'
 MIDDLEWARE = [
