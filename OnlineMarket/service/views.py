@@ -1,10 +1,11 @@
 from django.shortcuts import render
-from .serializer import CreateServiceSerializer,GetServiceSerializer, ReviewSerializer, CreateReviewSerializer, CreateRatingSerializer, GetRatingSerializer
+from .serializer import CreateServiceSerializer,GetServiceSerializer, ReviewSerializer, CreateReviewSerializer, CreateRatingSerializer, GetRatingSerializer,SavedSerializer,CreateSavedSerializer
 from django_filters.rest_framework import DjangoFilterBackend
-from .models import Service,ServiceRating,ServiceReview
+from .models import Service,ServiceRating,ServiceReview,ServiceSaved
+from rest_framework.mixins import CreateModelMixin, DestroyModelMixin,RetrieveModelMixin,ListModelMixin
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.permissions import IsAuthenticated , AllowAny
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import ModelViewSet,GenericViewSet
 from .filters import ServiceFilter
 from django.db import IntegrityError
 from rest_framework.response import Response
@@ -96,4 +97,27 @@ class RatingViewSet(ModelViewSet):
     except IntegrityError:
         def error(request):
             return Response({'error': "You can't rate twice"}, status=400)
-    
+
+class SaveViewSet(CreateModelMixin, ListModelMixin ,RetrieveModelMixin, DestroyModelMixin, GenericViewSet):
+
+    def get_queryset(self):
+        if self.request.method == "DELETE":
+            return ServiceSaved.objects.filter(user_id = self.request.user.id)
+        else:
+            return ServiceSaved.objects.filter(user_id = self.request.user.id)
+        
+    def get_permissions(self):
+        if self.request.method == "GET":
+            return [AllowAny()]
+        return [IsAuthenticated()]
+
+    def get_serializer_class(self):
+        if self.request.method == "GET":
+            return SavedSerializer
+        return CreateSavedSerializer
+
+    def get_serializer_context(self):
+        return {
+            "service_id" : self.kwargs["service_pk"],
+            "user_id" : self.request.user.id
+            }

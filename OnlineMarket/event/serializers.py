@@ -1,6 +1,11 @@
 from rest_framework import serializers
-from .models import EventReview, Event
+from .models import EventReview, Event,EventSaved
 from user.models import User
+
+class EventSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Event
+        fields = ["id","organizer","title", "event_date","event_time", "event_place", "image"]
 
 class GetUserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -40,3 +45,19 @@ class CreateReviewSerializer(serializers.ModelSerializer):
         event_id = self.context["event_id"]
         user = User.objects.get(id = self.context["user_id"])
         return EventReview.objects.create(event_id= event_id, user = user ,**validated_data)
+
+class SavedSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EventSaved
+        fields = ["id","event", "saved_date"]
+    event = EventSerializer()
+
+class CreateSavedSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EventSaved
+        fields = ["id","saved_date"]
+
+    def create(self, validated_data):
+        event_id = self.context["event_id"]
+        user = User.objects.get(id = self.context["user_id"])
+        return EventSaved.objects.create(event_id= event_id, user = user ,**validated_data)

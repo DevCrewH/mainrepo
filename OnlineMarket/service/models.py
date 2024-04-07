@@ -51,3 +51,8 @@ class ServiceRating(models.Model):
     
     def __str__(self) -> str:
         return str(self.rate)
+    
+class ServiceSaved(models.Model):
+    user = models.ForeignKey(User, on_delete = models.CASCADE)
+    service = models.ForeignKey(Service, on_delete = models.CASCADE)
+    saved_date = models.DateField(auto_now_add = True)

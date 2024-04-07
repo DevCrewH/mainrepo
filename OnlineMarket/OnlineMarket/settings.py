@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'product',
     'event',
     'service',
+    'saved',
 ]
 AUTH_USER_MODEL = 'user.User'
 MIDDLEWARE = [
@@ -132,12 +133,25 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = '587'
+EMAIL_USE_TLS = 'True'
+
+EMAIL_HOST_USER = 'devcrew47@gmail.com'
+EMAIL_HOST_PASSWORD = 'yiyydgalioduyrga'
+DEFAULT_FROM_EMAIL = 'devcrew47@gmail.com'
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 DJOSER = {
     "SERIALIZERS": {
         "user_create": "user.serializer.UserCreationSerializer",
         "current_user": "user.serializer.CurrentUser",
-    }
+    },
+    "PASSWORD_CHANGED_EMAIL_CONFIRMATION": True,
+    "USERNAME_CHANGED_EMAIL_CONFIRMATION": True,
+    "SEND_CONFIRMATION_EMAIL": True,
 }
 
 REST_FRAMEWORK = {

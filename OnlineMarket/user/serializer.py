@@ -49,5 +49,5 @@ class UserSerializer(serializers.ModelSerializer):
 class CurrentUser(DjoserUserSerializer):
     class Meta(DjoserUserSerializer.Meta):
         model = User
-        fields = ["first_name", "last_name", "email", "username", "sex", "phone","profile", "bio","password"]
+        fields = ["first_name", "last_name", "email", "username", "sex", "phone","profile", "bio"]
         

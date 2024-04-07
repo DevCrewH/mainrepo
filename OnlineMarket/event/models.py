@@ -26,3 +26,8 @@ class EventReview(models.Model):
 
     def __str__(self) -> str:
         return self.review
+
+class EventSaved(models.Model):
+    user = models.ForeignKey(User, on_delete = models.CASCADE)
+    event = models.ForeignKey(Event, on_delete = models.CASCADE)
+    saved_date = models.DateField(auto_now_add = True)

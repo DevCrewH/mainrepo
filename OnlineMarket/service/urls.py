@@ -8,6 +8,7 @@ router.register("service", views.ServiceViewSet, basename="service")
 service_routers = routers.NestedDefaultRouter(router, "service", lookup = "service")
 service_routers.register("review", views.ReviewViewSet, basename="service-review")
 service_routers.register("rating", views.RatingViewSet, basename="service-rating")
+service_routers.register("save", views.SaveViewSet, basename="service-save")
 
 
 urlpatterns = [

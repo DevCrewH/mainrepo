@@ -4,7 +4,10 @@ from rest_framework.filters import SearchFilter
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.mixins import RetrieveModelMixin, ListModelMixin
 from .serializer import UserSerializer
+from rest_framework import status
 from .models import User
+from djoser.views import UserViewSet
+from rest_framework.response import Response
 
 class UserViewSet(RetrieveModelMixin, ListModelMixin, GenericViewSet):
     filter_backends = [DjangoFilterBackend, SearchFilter]

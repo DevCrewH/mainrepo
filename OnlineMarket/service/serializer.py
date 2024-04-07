@@ -1,7 +1,12 @@
 from rest_framework import serializers
 from django.db.models.aggregates import Avg
-from .models import Service,ServiceRating,ServiceReview
+from .models import Service,ServiceRating,ServiceReview,ServiceSaved
 from user.models import User
+
+class ServiceSerilizer(serializers.ModelSerializer):
+    class Meta:
+        model = Service
+        fields = ["id", "title", "type", "image"]
 
 class GetUserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -32,7 +37,9 @@ class GetServiceSerializer(serializers.ModelSerializer):
     
     def rating_calculate(self,service:Service):
         average = ServiceRating.objects.filter(service_id = service.id).aggregate(average=Avg("rate"))
-        return average["average"]
+        if average["average"] is None:
+            return average["average"]
+        return round(average["average"])
 
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
@@ -60,3 +67,19 @@ class CreateRatingSerializer(serializers.ModelSerializer):
         user_id = self.context["user_id"]
 
         return ServiceRating.objects.create(service_id=service_id, user_id=user_id,**validated_data)
+
+class SavedSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ServiceSaved
+        fields = ["id","service", "saved_date"]
+    service = ServiceSerilizer()
+
+class CreateSavedSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ServiceSaved
+        fields = ["id","saved_date"]
+
+    def create(self, validated_data):
+        service_id = self.context["service_id"]
+        user_id = self.context["user_id"]
+        return ServiceSaved.objects.create(service_id=service_id, user_id=user_id,**validated_data)
