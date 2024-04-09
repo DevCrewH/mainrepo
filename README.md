@@ -5,3 +5,5 @@ install
 -pillow
 -drf-nested-routers
 -django-filter
+-mysqlclient
+-django-cors-headers
