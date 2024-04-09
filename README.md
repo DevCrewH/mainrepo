@@ -5,3 +5,4 @@ install
 -pillow
 -drf-nested-routers
 -django-filter
+-mysqlclient
