@@ -11,5 +11,4 @@ urlpatterns = [
     path('', include("product.urls")),
     path('', include("event.urls")),
     path('', include("service.urls")),
-    path('', include("saved.urls")),
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
