@@ -1,14 +1,14 @@
 {
     "builds": [
       {
-        "src": "build_files.sh",
+        "src": "OnlineMarket/build_files.sh",
         "use": "@vercel/static-build",
         "config": {
           "distDir": "staticfiles_build"
         }
       },
       {
-        "src": "/OnlineMarket/wsgi.py",
+        "src": "/OnlineMarket/OnlineMarket/wsgi.py",
         "use": "@vercel/python",
         "config": { "maxLambdaSize": "15mb" }
       }
@@ -16,7 +16,7 @@
     "routes": [
       {
         "src": "/(.*)",
-        "dest": "OnlineMarket/wsgi.py"
+        "dest": "OnlineMarket/OnlineMarket/wsgi.py"
       },
       {
         "src": "/static/(.*)",
