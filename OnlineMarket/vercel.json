@@ -15,12 +15,12 @@
     ],
     "routes": [
       {
-        "src": "/(.*)",
+        "src": "OnlineMarket/(.*)",
         "dest": "OnlineMarket/OnlineMarket/wsgi.py"
       },
       {
-        "src": "/static/(.*)",
-        "dest": "/static/$1"
+        "src": "OnlineMarket/static/(.*)",
+        "dest": "OnlineMarket/static/$1"
       }
     ]
   }
